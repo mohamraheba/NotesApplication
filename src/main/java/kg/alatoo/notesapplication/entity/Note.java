@@ -2,6 +2,7 @@ package kg.alatoo.notesapplication.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class Note {
     private String content;
 
     @ManyToMany(mappedBy = "notes")
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
     public Set<Category> getCategories() {
         return categories;
