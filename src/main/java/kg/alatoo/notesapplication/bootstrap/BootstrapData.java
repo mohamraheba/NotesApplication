@@ -21,7 +21,6 @@ public class BootstrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Note homework = new Note();
-
         homework.setTitle("Homework");
         homework.setContent("Do homework");
 
@@ -32,7 +31,6 @@ public class BootstrapData implements CommandLineRunner {
         Category abcSaved = categoryRepository.save(abc);
 
         Note cleaning = new Note();
-
         cleaning.setTitle("Cleaning");
         cleaning.setContent("Clean your room");
 
@@ -47,9 +45,9 @@ public class BootstrapData implements CommandLineRunner {
         homeworkSaved.getCategories().add(abcSaved);
         cleaningSaved.getCategories().add(abbSaved);
 
-
         System.out.println("In Bootstrap");
         System.out.println("Note Count:" + noteRepository.count());
         System.out.println("Category Count:" + categoryRepository.count());
     }
 }
+

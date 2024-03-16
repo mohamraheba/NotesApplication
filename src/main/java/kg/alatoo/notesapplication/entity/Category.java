@@ -13,18 +13,8 @@ public class Category {
     private Long id;
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "note_category", joinColumns = @JoinColumn(name = "category_id"),
-        inverseJoinColumns = @JoinColumn(name = "note_id"))
+    @ManyToMany(mappedBy = "categories")
     private Set<Note> notes = new HashSet<>();
-
-    public Set<Note> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(Set<Note> notes) {
-        this.notes = notes;
-    }
 
     public Long getId() {
         return id;
@@ -42,27 +32,11 @@ public class Category {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", notes=" + notes +
-                '}';
+    public Set<Note> getNotes() {
+        return notes;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Category category = (Category) o;
-
-        return Objects.equals(id, category.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public void setNotes(Set<Note> notes) {
+        this.notes = notes;
     }
 }

@@ -1,7 +1,9 @@
 package kg.alatoo.notesapplication.repositories;
 
 import kg.alatoo.notesapplication.entity.Note;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface NoteRepository extends CrudRepository<Note,Long> {
+@Repository
+public interface NoteRepository extends JpaRepository<Note, Long> {
 }
