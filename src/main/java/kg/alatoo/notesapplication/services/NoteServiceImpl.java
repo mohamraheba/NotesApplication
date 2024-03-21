@@ -3,6 +3,7 @@ package kg.alatoo.notesapplication.services;
 import kg.alatoo.notesapplication.dto.NoteDTO;
 import kg.alatoo.notesapplication.entity.Category;
 import kg.alatoo.notesapplication.entity.Note;
+import kg.alatoo.notesapplication.exception.ResourceNotFoundException;
 import kg.alatoo.notesapplication.mappers.CategoryMapper;
 import kg.alatoo.notesapplication.mappers.NoteMapper;
 import kg.alatoo.notesapplication.repositories.NoteRepository;
@@ -44,8 +45,8 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public NoteDTO findById(Long id) {
         Note note = noteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
-        return modelMapper.map(note, NoteDTO.class);
+                .orElseThrow(() -> new ResourceNotFoundException("Note not found with id: " + id));
+        return noteMapper.convertToDto(note);
     }
 
     @Override
