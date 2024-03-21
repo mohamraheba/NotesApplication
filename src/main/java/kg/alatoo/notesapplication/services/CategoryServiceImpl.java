@@ -2,7 +2,6 @@ package kg.alatoo.notesapplication.services;
 
 import kg.alatoo.notesapplication.dto.CategoryDTO;
 import kg.alatoo.notesapplication.entity.Category;
-import kg.alatoo.notesapplication.entity.Note;
 import kg.alatoo.notesapplication.repositories.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -37,14 +35,14 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO findById(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
-        return convertToDTOWithNoteIds(category);
+        return convertToDTO(category);
     }
 
     @Override
     public List<CategoryDTO> findAll() {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream()
-                .map(this::convertToDTOWithNoteIds)
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -62,10 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    private CategoryDTO convertToDTOWithNoteIds(Category category) {
-        CategoryDTO dto = modelMapper.map(category, CategoryDTO.class);
-        dto.setNoteIds(category.getNotes().stream().map(Note::getId).collect(Collectors.toSet()));
-        return dto;
+    private CategoryDTO convertToDTO(Category category) {
+        return modelMapper.map(category, CategoryDTO.class);
     }
 }
-

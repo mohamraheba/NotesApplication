@@ -1,6 +1,7 @@
 package kg.alatoo.notesapplication.controllers;
 
 import kg.alatoo.notesapplication.dto.NoteDTO;
+import kg.alatoo.notesapplication.mappers.NoteMapper;
 import kg.alatoo.notesapplication.services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,12 @@ import java.util.List;
 public class NoteController {
 
     private final NoteService noteService;
+    private final NoteMapper noteMapper;
 
     @Autowired
-    public NoteController(NoteService noteService) {
+    public NoteController(NoteService noteService, NoteMapper noteMapper) {
         this.noteService = noteService;
+        this.noteMapper = noteMapper;
     }
 
     @PostMapping
@@ -34,7 +37,7 @@ public class NoteController {
 
     @GetMapping
     public ResponseEntity<List<NoteDTO>> findAll() {
-        List<NoteDTO> noteDTOs = noteService.findAllWithCategories(); // Use findAllWithCategories()
+        List<NoteDTO> noteDTOs = noteService.findAllWithCategories();
         return ResponseEntity.ok(noteDTOs);
     }
 

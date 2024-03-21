@@ -7,6 +7,9 @@ import kg.alatoo.notesapplication.repositories.NoteRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class BootstrapData implements CommandLineRunner {
 
@@ -20,34 +23,33 @@ public class BootstrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Note homework = new Note();
-        homework.setTitle("Homework");
-        homework.setContent("Do homework");
+        Category study = Category.builder()
+                .name("Study")
+                .build();
+        Category home = Category.builder()
+                .name("Home")
+                .build();
 
-        Category abc = new Category();
-        abc.setName("Abc");
+        study = categoryRepository.save(study);
+        home = categoryRepository.save(home);
 
-        Note homeworkSaved = noteRepository.save(homework);
-        Category abcSaved = categoryRepository.save(abc);
+        Note homework = Note.builder()
+                .title("Homework")
+                .content("Do homework")
+                .categories(Set.of(study))
+                .build();
 
-        Note cleaning = new Note();
-        cleaning.setTitle("Cleaning");
-        cleaning.setContent("Clean your room");
+        Note cleaning = Note.builder()
+                .title("Cleaning")
+                .content("Clean your room")
+                .categories(Set.of(home))
+                .build();
 
-        Category abb = new Category();
-        abb.setName("Abb");
-
-        Note cleaningSaved = noteRepository.save(cleaning);
-        Category abbSaved = categoryRepository.save(abb);
-
-        abcSaved.getNotes().add(homeworkSaved);
-        abbSaved.getNotes().add(cleaningSaved);
-        homeworkSaved.getCategories().add(abcSaved);
-        cleaningSaved.getCategories().add(abbSaved);
+        noteRepository.save(homework);
+        noteRepository.save(cleaning);
 
         System.out.println("In Bootstrap");
         System.out.println("Note Count:" + noteRepository.count());
         System.out.println("Category Count:" + categoryRepository.count());
     }
 }
-

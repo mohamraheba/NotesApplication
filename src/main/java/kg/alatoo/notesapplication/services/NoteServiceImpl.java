@@ -3,6 +3,8 @@ package kg.alatoo.notesapplication.services;
 import kg.alatoo.notesapplication.dto.NoteDTO;
 import kg.alatoo.notesapplication.entity.Category;
 import kg.alatoo.notesapplication.entity.Note;
+import kg.alatoo.notesapplication.mappers.CategoryMapper;
+import kg.alatoo.notesapplication.mappers.NoteMapper;
 import kg.alatoo.notesapplication.repositories.NoteRepository;
 import kg.alatoo.notesapplication.repositories.CategoryRepository; // Add this import
 import org.modelmapper.ModelMapper;
@@ -20,12 +22,16 @@ public class NoteServiceImpl implements NoteService {
     private final NoteRepository noteRepository;
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
+    private final CategoryMapper categoryMapper;
+    private final NoteMapper noteMapper;
 
     @Autowired
-    public NoteServiceImpl(NoteRepository noteRepository, CategoryRepository categoryRepository, ModelMapper modelMapper) { // Modify constructor
+    public NoteServiceImpl(NoteRepository noteRepository, CategoryRepository categoryRepository, ModelMapper modelMapper, CategoryMapper categoryMapper, NoteMapper noteMapper) {
         this.noteRepository = noteRepository;
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
+        this.categoryMapper = categoryMapper;
+        this.noteMapper = noteMapper;
     }
 
     @Override
@@ -44,15 +50,26 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteDTO> findAllWithCategories() {
-        return null;
+        List<Note> notes = noteRepository.findAll();
+        return notes.stream()
+                .map(this::convertToDTOWithCategories)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<NoteDTO> findAll() {
         List<Note> notes = noteRepository.findAll();
         return notes.stream()
-                .map(note -> modelMapper.map(note, NoteDTO.class))
+                .map(noteMapper::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    private NoteDTO convertToDTOWithCategories(Note note) {
+        NoteDTO noteDTO = modelMapper.map(note, NoteDTO.class);
+        noteDTO.setCategories(note.getCategories().stream()
+                .map(categoryMapper::convertToDto)
+                .collect(Collectors.toSet()));
+        return noteDTO;
     }
 
     @Override

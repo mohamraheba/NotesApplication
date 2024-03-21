@@ -1,6 +1,7 @@
 package kg.alatoo.notesapplication.controllers;
 
 import kg.alatoo.notesapplication.dto.CategoryDTO;
+import kg.alatoo.notesapplication.mappers.CategoryMapper;
 import kg.alatoo.notesapplication.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +15,12 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, CategoryMapper categoryMapper) {
         this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
     }
 
     @PostMapping
