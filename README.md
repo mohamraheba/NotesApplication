@@ -13,4 +13,10 @@ Spring Data JPA: Simplifies database access and manipulation.
 Spring Web: Provides support for building web applications.
 H2 Database: Lightweight in-memory database for development and testing.
 
+
+Future modifications: 
+
+User Authorization & Authentification, Interface will be added to the application. 
+
+
 Use tools like Postman or cURL to interact with the API endpoints.
