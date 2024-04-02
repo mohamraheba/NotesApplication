@@ -1,4 +1,5 @@
 Video demonstration: https://youtu.be/wbRdyjnCPbw?si=B4E0_IZHx6yUxyEy
+
 This project serves as the backend component for a Note management application, providing the necessary infrastructure and functionalities to manage notes and categories via a RESTful API.
 Whether you're a student, professional, or enthusiast, this application offers a robust infrastructure to create, manage, and search notes efficiently.
 
