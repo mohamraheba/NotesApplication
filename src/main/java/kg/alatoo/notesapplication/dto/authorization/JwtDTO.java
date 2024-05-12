@@ -1,2 +1,15 @@
-package kg.alatoo.notesapplication.dto.authorization;public class JwtDTO {
+package kg.alatoo.notesapplication.dto.authorization;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class JwtDTO {
+    private String accessToken;
+    private String token;
 }
