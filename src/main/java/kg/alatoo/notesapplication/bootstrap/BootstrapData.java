@@ -2,12 +2,15 @@ package kg.alatoo.notesapplication.bootstrap;
 
 import kg.alatoo.notesapplication.entity.Category;
 import kg.alatoo.notesapplication.entity.Note;
+import kg.alatoo.notesapplication.entity.Roles;
+import kg.alatoo.notesapplication.entity.User;
 import kg.alatoo.notesapplication.repositories.CategoryRepository;
 import kg.alatoo.notesapplication.repositories.NoteRepository;
+import kg.alatoo.notesapplication.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -15,14 +18,41 @@ public class BootstrapData implements CommandLineRunner {
 
     private final NoteRepository noteRepository;
     private final CategoryRepository categoryRepository;
+    private PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
 
-    public BootstrapData(NoteRepository noteRepository, CategoryRepository categoryRepository) {
+    public BootstrapData(NoteRepository noteRepository, CategoryRepository categoryRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.noteRepository = noteRepository;
         this.categoryRepository = categoryRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+
+        User admin = User.builder()
+                .name("Raheba")
+                .username("admin")
+                .roles(Set.of(Roles.ADMIN, Roles.STAFF))
+                .password(passwordEncoder.encode("pass"))
+                .build();
+        User staff = User.builder()
+                .name("Staff")
+                .username("staff")
+                .password(passwordEncoder.encode("pass"))
+                .roles(Set.of(Roles.STAFF))
+                .build();
+
+
+        User user = User.builder()
+                .name("user")
+                .username("user")
+                .roles(Set.of(Roles.USER))
+                .password(passwordEncoder.encode("pass"))
+                .build();
+        userRepository.saveAll(List.of(admin, staff, user));
+
         Category study = Category.builder()
                 .name("Study")
                 .build();

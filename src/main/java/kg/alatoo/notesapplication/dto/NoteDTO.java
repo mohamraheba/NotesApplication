@@ -11,5 +11,6 @@ public class NoteDTO {
     private Long id;
     private String title;
     private String content;
+    private String userId;
     private Set<CategoryDTO> categories;
 }
